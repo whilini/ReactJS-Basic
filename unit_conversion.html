@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    const MinutesToHours = () => {
+      const [amount, setAmount] = React.useState(0);
+      const [flipped, setFlipped] = React.useState(true);
+      const onChange = (event) => {
+        setAmount(event.target.value);
+      };
+      const reset = () => {
+        setAmount(0);
+      };
+      const onFlip = () => {
+        reset();
+        setFlipped((current) => !current);
+      };
+      return (
+        <div>
+          <h3>Time Converter</h3>
+          <div>
+            <input
+              value={flipped ? amount : amount * 60}
+              id='amount'
+              placeholder='Minutes'
+              type='number'
+              onChange={onChange}
+              disabled={!flipped}
+              style={{
+                "text-align": "right",
+              }}
+            />
+            <label htmlFor='amount'>Minutes</label>
+          </div>
+          <div>
+            <input
+              value={flipped ? amount / 60 : amount}
+              id='hours'
+              placeholder='Hours'
+              type='number'
+              onChange={onChange}
+              disabled={flipped}
+              style={{
+                "text-align": "right",
+              }}
+            />
+            <label htmlFor='hours'>Hours</label>
+          </div>
+          <button onClick={reset}>Reset</button>
+          <button onClick={onFlip}>{flipped ? "Hours to Minutes" : "Minutes to Hours"}</button>
+        </div>
+      );
+    };
+    const KmToMiles = () => {
+      return <h3>km To miles</h3>;
+    };
+    const App = () => {
+      const [index, setIndex] = React.useState("xx");
+      const onSelect = (event) => {
+        setIndex(event.target.value);
+      };
+      return (
+        <div>
+          <h1>SuperConverter</h1>
+          <select value={index} onChange={onSelect}>
+            <option value='xx'>Select Units</option>
+            <option value='0'>Minutes & Hours</option>
+            <option value='1'>Km & Miles</option>
+          </select>
+          <hr />
+          {index === "xx" ? "Please select your units" : null}
+          {index === "0" ? <MinutesToHours /> : null}
+          {index === "1" ? <KmToMiles /> : null}
+        </div>
+      );
+    };
+    const root = document.querySelector("#root");
+    ReactDOM.render(<App />, root);
+  </script>
+</html>
